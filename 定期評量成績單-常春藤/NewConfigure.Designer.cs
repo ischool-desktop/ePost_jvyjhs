@@ -146,6 +146,7 @@
             this.checkBoxX2.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
             this.checkBoxX2.TabIndex = 4;
             this.checkBoxX2.Text = "使用自訂樣板";
+            this.checkBoxX2.Visible = false;
             this.checkBoxX2.CheckedChanged += new System.EventHandler(this.checkReady);
             // 
             // labelX4

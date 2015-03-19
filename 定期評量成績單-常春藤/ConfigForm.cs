@@ -478,14 +478,15 @@ namespace SH_jvyjhs_StudentExamScore_epost
 
             try
             {
-                //document.Save(path, Aspose.Words.SaveFormat.Doc);
-                System.IO.FileStream stream = new FileStream(path, FileMode.Create, FileAccess.Write);
                 
-                //stream.Write(Properties.Resources.個人學期成績單樣板_高中_, 0, Properties.Resources.個人學期成績單樣板_高中_.Length);
+                System.IO.FileStream stream = new FileStream(path, FileMode.Create, FileAccess.Write);
                 this.Configure.Template.Save(stream, Aspose.Words.SaveFormat.Doc);
                 
                 stream.Flush();
                 stream.Close();
+
+
+
                 System.Diagnostics.Process.Start(path);
             }
             catch

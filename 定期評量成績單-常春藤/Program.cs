@@ -2864,24 +2864,23 @@ namespace SH_jvyjhs_StudentExamScore_epost
                                   int grYear;
                                   int.TryParse(dr["學生班級年級"].ToString(), out grYear);
 
+                                  // 先取通訊地址，沒有再取戶籍地址
+                                  string zip1 = dr["通訊地址郵遞區號"].ToString();
+                                  string zip2 = dr["戶籍地址郵遞區號"].ToString();
+                                  string Address1 = dr["通訊地址內容"].ToString();
+                                  string Address2 = dr["戶籍地址內容"].ToString();
+
                                   // POSTALADDRESS
-                                  string address = dr["收件人地址"].ToString();
-                                  string zip1 = dr["通訊地址郵遞區號"].ToString() + " ";
-                                  string zip2 = dr["戶籍地址郵遞區號"].ToString() + " ";
-                                  if (address.Contains(zip1))
-                                  {
-                                      address = address.Replace(zip1, "");
-                                      data["POSTALCODE"] = dr["通訊地址郵遞區號"].ToString();
-                                  }
+                                  if (string.IsNullOrWhiteSpace(zip1))
+                                      data["POSTALCODE"] = zip2;
+                                  else
+                                      data["POSTALCODE"] = zip1;
 
-                                  if (address.Contains(zip2))
-                                  {
-                                      address = address.Replace(zip2, "");
-                                      data["POSTALCODE"] = dr["戶籍地址郵遞區號"].ToString();
-                                  }
-
-                                  data["POSTALADDRESS"] = address;
-
+                                  if (string.IsNullOrWhiteSpace(Address1))
+                                      data["POSTALADDRESS"] = Address2;
+                                  else
+                                      data["POSTALADDRESS"] = Address1;                             
+                                  
                                   //data["缺曠獎懲統計期間"] = dr["開始日期"] + "～" + dr["結束日期"];
 
 
@@ -2894,21 +2893,22 @@ namespace SH_jvyjhs_StudentExamScore_epost
                                           data[eKeyValDict[dc.Caption]] = dr[dc.Caption];
                                   }
 
-                                  //// 處理科目成績
-                                  //for (int subjectIndex = 1; subjectIndex <= conf.SubjectLimit; subjectIndex++)
-                                  //{
-                                  //    if (dr["科目名稱" + subjectIndex].ToString() != "")
-                                  //    {
-                                  //        data["科目名稱" + subjectIndex] = dr["科目名稱" + subjectIndex];
-                                  //        data["學分數" + subjectIndex] = dr["學分數" + subjectIndex];
+                                  // 處理科目成績
+                                  for (int subjectIndex = 1; subjectIndex <= conf.SubjectLimit; subjectIndex++)
+                                  {
+                                      if (dr["科目名稱" + subjectIndex].ToString() != "")
+                                      {
+                                          data["科目名稱" + subjectIndex] = dr["科目名稱" + subjectIndex];
+                                          data["學分數" + subjectIndex] = dr["學分數" + subjectIndex];
                                   //        data["前次成績" + subjectIndex] = dr["前次成績" + subjectIndex];
+                                           data["科目成績" + subjectIndex] = dr["科目成績" + subjectIndex];
                                   //        data["成績" + subjectIndex] = dr["科目成績" + subjectIndex];
                                   //        data["班級平均" + subjectIndex] = dr["班均標" + subjectIndex];
                                   //        data["班級排名" + subjectIndex] = dr["班排名" + subjectIndex];
                                   //        data["科排名" + subjectIndex] = dr["科排名" + subjectIndex];
                                   //        data["類組排名" + subjectIndex] = dr["類別1排名" + subjectIndex];
-                                  //    }
-                                  //}
+                                      }
+                                  }
 
                                   //data["導師評語"] = @"""" + data["導師評語"].ToString() + @"""";
                                   _dtEpost.Rows.Add(data);

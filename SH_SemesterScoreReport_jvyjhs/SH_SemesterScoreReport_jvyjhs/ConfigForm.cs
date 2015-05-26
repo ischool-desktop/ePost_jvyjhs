@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using K12.Data;
 using System.IO;
+using System.Xml.Linq;
 
 namespace SH_SemesterScoreReport_jvyjhs
 {
@@ -19,7 +20,7 @@ namespace SH_SemesterScoreReport_jvyjhs
         private List<TagConfigRecord> _TagConfigRecords = new List<TagConfigRecord>();
         private List<Configure> _Configures = new List<Configure>();
         private string _DefalutSchoolYear = "";
-        private string _DefaultSemester = "";
+        private string _DefaultSemester = "";        
 
         public ConfigForm()
         {
@@ -167,7 +168,12 @@ namespace SH_SemesterScoreReport_jvyjhs
                 {
                     cboConfigure.SelectedIndex = -1;
                 }
+                lbMemo.Enabled = true;
+                linkLabel2.Enabled = true;
             };
+            lbMemo.Enabled = false;
+            linkLabel2.Enabled = false;
+
             bkw.RunWorkerAsync();
         }
 
@@ -639,6 +645,54 @@ namespace SH_SemesterScoreReport_jvyjhs
                 }
             }
             #endregion
+        }
+
+        private void lbMemo_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            string strDate = "", strMemo = "";
+            MemoForm mf = new MemoForm();
+            // LoadXML
+            try
+            {
+                XElement elmRoot = XElement.Parse(Configure.Memo);
+                if (elmRoot != null)
+                {
+                    if (elmRoot.Element("補考日期") != null)
+                    {
+                        strDate = elmRoot.Element("補考日期").Value;
+                        mf.SetDateStr(strDate);
+                    }
+
+                    if (elmRoot.Element("備註") != null)
+                    {
+                        strMemo = elmRoot.Element("備註").Value;
+                        mf.SetMemo(strMemo);
+                    }
+                }
+            }
+            catch (Exception ex)
+            { 
+            
+            }
+
+            if (mf.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                strDate = mf.GetTextDateStr();
+                strMemo = mf.GetMemo();
+                XElement elmRoot = new XElement("Memo");
+                elmRoot.SetElementValue("補考日期", strDate);
+                elmRoot.SetElementValue("備註", strMemo);
+                Configure.Memo = elmRoot.ToString();
+                // Save
+                Configure.Encode();
+                Configure.Save();
+            }
+        }
+
+        private void chklv1All_CheckedChanged(object sender, EventArgs e)
+        {
+            foreach (ListViewItem lvi in listViewEx1.Items)
+                lvi.Checked = chklv1All.Checked;
         }
     }
 }

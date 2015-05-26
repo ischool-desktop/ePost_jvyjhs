@@ -138,6 +138,12 @@
       <DependentUpon>ConfigForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Configure.cs" />
+    <Compile Include="MemoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MemoForm.Designer.cs">
+      <DependentUpon>MemoForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="NewConfigure.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -160,6 +166,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ConfigForm.resx">
       <DependentUpon>ConfigForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MemoForm.resx">
+      <DependentUpon>MemoForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="NewConfigure.resx">
       <DependentUpon>NewConfigure.cs</DependentUpon>

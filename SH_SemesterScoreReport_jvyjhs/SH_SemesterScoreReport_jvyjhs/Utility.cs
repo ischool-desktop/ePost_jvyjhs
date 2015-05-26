@@ -679,14 +679,14 @@ namespace SH_SemesterScoreReport_jvyjhs
         public static List<string> GetATTypeList()
         {
             List<string> ATTypeList = new List<string>();
-            ATTypeList.Add("升降旗");
+
             ATTypeList.Add("遲到");
             ATTypeList.Add("曠課");
             ATTypeList.Add("事假");
             ATTypeList.Add("病假");
             ATTypeList.Add("公假");
             ATTypeList.Add("喪假");
-            ATTypeList.Add("其他假");
+
 
             return ATTypeList;
         }

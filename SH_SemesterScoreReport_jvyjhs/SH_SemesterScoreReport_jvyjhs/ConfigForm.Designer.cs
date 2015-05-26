@@ -67,6 +67,8 @@
             this.btnCancel = new DevComponents.DotNetBar.ButtonX();
             this.panel4 = new System.Windows.Forms.Panel();
             this.circularProgress1 = new DevComponents.DotNetBar.Controls.CircularProgress();
+            this.lbMemo = new System.Windows.Forms.LinkLabel();
+            this.chklv1All = new DevComponents.DotNetBar.Controls.CheckBoxX();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -120,8 +122,8 @@
             // 
             // listViewEx1
             // 
-            this.listViewEx1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.listViewEx1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             // 
             // 
@@ -166,8 +168,8 @@
             // 
             // listViewEx2
             // 
-            this.listViewEx2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.listViewEx2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             // 
             // 
@@ -242,8 +244,8 @@
             // 
             // listViewEx3
             // 
-            this.listViewEx3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.listViewEx3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             // 
             // 
@@ -349,6 +351,8 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.chklv1All);
+            this.panel1.Controls.Add(this.lbMemo);
             this.panel1.Controls.Add(this.cboConfigure);
             this.panel1.Controls.Add(this.linkLabel4);
             this.panel1.Controls.Add(this.linkLabel3);
@@ -377,7 +381,7 @@
             // 
             // cboConfigure
             // 
-            this.cboConfigure.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.cboConfigure.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cboConfigure.DisplayMember = "Name";
             this.cboConfigure.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
@@ -637,8 +641,8 @@
             // 
             // circularProgress1
             // 
-            this.circularProgress1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.circularProgress1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.circularProgress1.BackColor = System.Drawing.Color.Transparent;
             // 
@@ -655,6 +659,34 @@
             this.circularProgress1.Size = new System.Drawing.Size(75, 75);
             this.circularProgress1.Style = DevComponents.DotNetBar.eDotNetBarStyle.Windows7;
             this.circularProgress1.TabIndex = 13;
+            // 
+            // lbMemo
+            // 
+            this.lbMemo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lbMemo.AutoSize = true;
+            this.lbMemo.Location = new System.Drawing.Point(196, 483);
+            this.lbMemo.Name = "lbMemo";
+            this.lbMemo.Size = new System.Drawing.Size(60, 17);
+            this.lbMemo.TabIndex = 12;
+            this.lbMemo.TabStop = true;
+            this.lbMemo.Text = "備註設定";
+            this.lbMemo.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lbMemo_LinkClicked);
+            // 
+            // chklv1All
+            // 
+            this.chklv1All.AutoSize = true;
+            // 
+            // 
+            // 
+            this.chklv1All.BackgroundStyle.Class = "";
+            this.chklv1All.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.chklv1All.Location = new System.Drawing.Point(93, 204);
+            this.chklv1All.Name = "chklv1All";
+            this.chklv1All.Size = new System.Drawing.Size(54, 21);
+            this.chklv1All.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.chklv1All.TabIndex = 13;
+            this.chklv1All.Text = "全選";
+            this.chklv1All.CheckedChanged += new System.EventHandler(this.chklv1All_CheckedChanged);
             // 
             // ConfigForm
             // 
@@ -723,5 +755,7 @@
         private DevComponents.DotNetBar.ButtonX btnSaveConfig;
         private System.Windows.Forms.LinkLabel linkLabel5;
         private DevComponents.DotNetBar.Controls.CheckBoxX chkExportEPOST;
+        private System.Windows.Forms.LinkLabel lbMemo;
+        private DevComponents.DotNetBar.Controls.CheckBoxX chklv1All;
     }
 }

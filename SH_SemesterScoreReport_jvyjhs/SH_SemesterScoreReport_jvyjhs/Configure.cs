@@ -109,6 +109,9 @@ namespace SH_SemesterScoreReport_jvyjhs
         [FISCA.UDT.Field]
         public bool ExportEpost { get; set; }
 
+        [FISCA.UDT.Field]
+        public string Memo { get; set; }
+
         /// <summary>
         /// 在儲存前，把資料填入儲存欄位中
         /// </summary>

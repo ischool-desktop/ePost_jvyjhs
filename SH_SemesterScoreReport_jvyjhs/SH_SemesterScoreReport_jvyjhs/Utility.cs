@@ -95,8 +95,6 @@ namespace SH_SemesterScoreReport_jvyjhs
                     PeriodMappingDict.Add(rec.Name, rec.Type);
             }
 
-            // 取得常春藤高中特有缺曠
-            List<string> ATTypeList = GetATTypeList();
 
             List<AttendanceRecord> attendList = K12.Data.Attendance.SelectBySchoolYearAndSemester(StudRecordList, SchoolYear, Semester);
 
@@ -104,12 +102,7 @@ namespace SH_SemesterScoreReport_jvyjhs
             foreach (AttendanceRecord rec in attendList)
             {
                 if (!retVal.ContainsKey(rec.RefStudentID))
-                {
-                    Dictionary<string, int> dict = new Dictionary<string, int>();
-                    foreach (string str in ATTypeList)
-                        dict.Add(str, 0);
-                    retVal.Add(rec.RefStudentID, dict);
-                }
+                    retVal.Add(rec.RefStudentID, new Dictionary<string, int>());
 
                 foreach (AttendancePeriod per in rec.PeriodDetail)
                 {
@@ -119,11 +112,10 @@ namespace SH_SemesterScoreReport_jvyjhs
                     // ex.一般:曠課
                     string key = PeriodMappingDict[per.Period] + "_" + per.AbsenceType;
 
-                    // 缺曠轉換
-                    key = ATTypeParse(key);
+                    if (!retVal[rec.RefStudentID].ContainsKey(key))
+                        retVal[rec.RefStudentID].Add(key, 0);
 
-                    if (retVal[rec.RefStudentID].ContainsKey(key))
-                        retVal[rec.RefStudentID][key]++;
+                    retVal[rec.RefStudentID][key]++;
                 }
             }
 
@@ -186,8 +178,6 @@ namespace SH_SemesterScoreReport_jvyjhs
                     PeriodMappingDict.Add(rec.Name, rec.Type);
             }
 
-            // 取得常春藤高中特有缺曠
-            List<string> ATTypeList = GetATTypeList();
 
             List<AttendanceRecord> attendList = K12.Data.Attendance.SelectBySchoolYearAndSemester(StudRecordList, SchoolYear, null);
 
@@ -205,11 +195,10 @@ namespace SH_SemesterScoreReport_jvyjhs
                     // ex.一般:曠課
                     string key = PeriodMappingDict[per.Period] + "_" + per.AbsenceType;
 
-                    // 缺曠轉換
-                    key = ATTypeParse(key);
+                    if (!retVal[rec.RefStudentID].ContainsKey(key))
+                        retVal[rec.RefStudentID].Add(key, 0);
 
-                    if (retVal[rec.RefStudentID].ContainsKey(key))
-                        retVal[rec.RefStudentID][key]++;
+                    retVal[rec.RefStudentID][key]++;
                 }
             }
 
@@ -689,6 +678,34 @@ namespace SH_SemesterScoreReport_jvyjhs
 
 
             return ATTypeList;
+        }
+
+        /// <summary>
+        /// Word 與ePost 欄位差異對照用
+        /// </summary>
+        /// <returns></returns>
+        public static Dictionary<string, string> GetePostMapName1Dict()
+        {
+            Dictionary<string, string> retVal = new Dictionary<string, string>();
+            retVal.Add("學期學業成績", "學業成績");
+            retVal.Add("學期學業成績班排名", "班級排名");
+            retVal.Add("總分班排名母數", "班級人數");
+            retVal.Add("本學期一般_事假", "事假");
+            retVal.Add("本學期一般_病假", "病假");
+            retVal.Add("本學期一般_喪假", "喪假");
+            retVal.Add("本學期一般_曠課", "曠課");
+            retVal.Add("本學期一般_遲到", "遲到");
+            retVal.Add("本學期一般_公假", "公假");
+            retVal.Add("大功統計", "大功");
+            retVal.Add("小功統計", "小功");
+            retVal.Add("嘉獎統計", "嘉獎");
+            retVal.Add("大過統計", "大過");
+            retVal.Add("小過統計", "小過");
+            retVal.Add("警告統計", "警告");
+            retVal.Add("本學期修習學分數", "應得學分");
+            retVal.Add("本學期取得學分數", "實得學分");
+            retVal.Add("姓名", "學生姓名");
+            return retVal;
         }
 
     }

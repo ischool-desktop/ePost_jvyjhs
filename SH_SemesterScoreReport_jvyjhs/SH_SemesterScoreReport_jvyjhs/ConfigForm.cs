@@ -170,9 +170,13 @@ namespace SH_SemesterScoreReport_jvyjhs
                 }
                 lbMemo.Enabled = true;
                 linkLabel2.Enabled = true;
+                linkLabel1.Enabled = true;
+                linkLabel5.Enabled = true;
             };
             lbMemo.Enabled = false;
             linkLabel2.Enabled = false;
+            linkLabel1.Enabled = false;
+            linkLabel5.Enabled = false;
 
             bkw.RunWorkerAsync();
         }
@@ -433,7 +437,7 @@ namespace SH_SemesterScoreReport_jvyjhs
                 }
             }
         }
-
+        
         private void linkLabel4_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             if (Configure == null) return;

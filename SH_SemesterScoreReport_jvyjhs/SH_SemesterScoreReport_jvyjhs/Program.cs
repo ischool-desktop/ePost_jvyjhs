@@ -148,6 +148,9 @@ namespace SH_SemesterScoreReport_jvyjhs
                 table.Columns.Add("本學期取得學分數");
                 table.Columns.Add("累計取得學分數");
 
+                if (conf.SubjectLimit == 0)
+                    conf.SubjectLimit = 30;
+
                 for (int subjectIndex = 1; subjectIndex <= conf.SubjectLimit; subjectIndex++)
                 {
                     table.Columns.Add("科目名稱" + subjectIndex);
@@ -849,30 +852,32 @@ namespace SH_SemesterScoreReport_jvyjhs
                         _dtEpost.Columns.Add("班級");
                         _dtEpost.Columns.Add("座號");
                         _dtEpost.Columns.Add("學號");
-                        _dtEpost.Columns.Add("姓名");
+                        _dtEpost.Columns.Add("學生姓名");
 
                         for (int subjectIndex = 1; subjectIndex <= conf.SubjectLimit; subjectIndex++)
                         {
                             _dtEpost.Columns.Add("科目" + subjectIndex);
                             _dtEpost.Columns.Add("學分" + subjectIndex);
                             _dtEpost.Columns.Add("成績" + subjectIndex);
-                            //_dtEpost.Columns.Add("名次" + subjectIndex);
-                            //_dtEpost.Columns.Add("備註" + subjectIndex);
                         }
-
-                        _dtEpost.Columns.Add("修習學分");
-                        _dtEpost.Columns.Add("實得學分");
-                        _dtEpost.Columns.Add("累計學分");
-                        _dtEpost.Columns.Add("加權總分");
-                        _dtEpost.Columns.Add("平均分數");
-                        _dtEpost.Columns.Add("班級名次");
+                        _dtEpost.Columns.Add("總分");
+                        _dtEpost.Columns.Add("學業成績");
+                        _dtEpost.Columns.Add("班級排名");
                         _dtEpost.Columns.Add("班級人數");
-                        _dtEpost.Columns.Add("嘉獎");
-                        _dtEpost.Columns.Add("小功");
+                        _dtEpost.Columns.Add("事假");
+                        _dtEpost.Columns.Add("病假");
+                        _dtEpost.Columns.Add("喪假");
+                        _dtEpost.Columns.Add("曠課");
+                        _dtEpost.Columns.Add("遲到");
+                        _dtEpost.Columns.Add("公假");
                         _dtEpost.Columns.Add("大功");
-                        _dtEpost.Columns.Add("警告");
-                        _dtEpost.Columns.Add("小過");
+                        _dtEpost.Columns.Add("小功");
+                        _dtEpost.Columns.Add("嘉獎");
                         _dtEpost.Columns.Add("大過");
+                        _dtEpost.Columns.Add("小過");
+                        _dtEpost.Columns.Add("警告");
+                        _dtEpost.Columns.Add("應得學分");
+                        _dtEpost.Columns.Add("實得學分");
                         _dtEpost.Columns.Add("導師評語");
                         _dtEpost.Columns.Add("補考日期");
                         _dtEpost.Columns.Add("備註");               
@@ -901,42 +906,41 @@ namespace SH_SemesterScoreReport_jvyjhs
    
                         }
                         #endregion
-                        #region 缺曠對照表
-                        List<K12.Data.PeriodMappingInfo> periodMappingInfos = K12.Data.PeriodMapping.SelectAll();
-                        Dictionary<string, string> dicPeriodMappingType = new Dictionary<string, string>();
-                        List<string> periodTypes = new List<string>();
-                        foreach (K12.Data.PeriodMappingInfo periodMappingInfo in periodMappingInfos)
-                        {
-                            if (!dicPeriodMappingType.ContainsKey(periodMappingInfo.Name))
-                                dicPeriodMappingType.Add(periodMappingInfo.Name, periodMappingInfo.Type);
+                        //#region 缺曠對照表
+                        //List<K12.Data.PeriodMappingInfo> periodMappingInfos = K12.Data.PeriodMapping.SelectAll();
+                        //Dictionary<string, string> dicPeriodMappingType = new Dictionary<string, string>();
+                        //List<string> periodTypes = new List<string>();
+                        //foreach (K12.Data.PeriodMappingInfo periodMappingInfo in periodMappingInfos)
+                        //{
+                        //    if (!dicPeriodMappingType.ContainsKey(periodMappingInfo.Name))
+                        //        dicPeriodMappingType.Add(periodMappingInfo.Name, periodMappingInfo.Type);
 
-                            if (!periodTypes.Contains(periodMappingInfo.Type))
-                                periodTypes.Add(periodMappingInfo.Type);
-                        }
+                        //    if (!periodTypes.Contains(periodMappingInfo.Type))
+                        //        periodTypes.Add(periodMappingInfo.Type);
+                        //}
 
-                        int aidx = 1;
-                        foreach (var absence in K12.Data.AbsenceMapping.SelectAll())
-                        {
-                            foreach (var pt in periodTypes)
-                            {
-                                string attendanceKey = pt + "_" + absence.Name;
-                                if (!table.Columns.Contains(attendanceKey))
-                                {
-                                    table.Columns.Add(attendanceKey);
-                                }
+                        //int aidx = 1;
+                        //foreach (var absence in K12.Data.AbsenceMapping.SelectAll())
+                        //{
+                        //    foreach (var pt in periodTypes)
+                        //    {
+                        //        string attendanceKey = pt + "_" + absence.Name;
+                        //        if (!table.Columns.Contains(attendanceKey))
+                        //        {
+                        //            table.Columns.Add(attendanceKey);
+                        //        }
 
-                                if (pt == "一般")
-                                    aidx = 1;
-                                else
-                                    aidx = 2;
+                        //        if (pt == "一般")
+                        //            aidx = 1;
+                        //        else
+                        //            aidx = 2;
 
-                                string attendanceKey1 = absence.Name + aidx;
-                                //if (!_dtEpost.Columns.Contains(attendanceKey1))
-                                //    _dtEpost.Columns.Add(attendanceKey1);
-
-                            }
-                        }
-                        #endregion
+                        //        string attendanceKey1 = absence.Name + aidx;
+                        //        if (!_dtEpost.Columns.Contains(attendanceKey1))
+                        //            _dtEpost.Columns.Add(attendanceKey1);
+                        //    }
+                        //}
+                        //#endregion
 
                         
 
@@ -3385,6 +3389,8 @@ namespace SH_SemesterScoreReport_jvyjhs
                             row["警告統計"] = 警告 == 0 ? "" : ("" + 警告);
                             row["留校察看"] = 留校察看 ? "是" : "";
                             #endregion
+
+
                             //#region 缺曠統計
                             //Dictionary<string, int> 缺曠項目統計 = new Dictionary<string, int>();
                             //foreach (AttendanceInfo info in stuRec.AttendanceList)
@@ -3407,6 +3413,8 @@ namespace SH_SemesterScoreReport_jvyjhs
                             //    row[attendanceKey] = 缺曠項目統計[attendanceKey] == 0 ? "" : ("" + 缺曠項目統計[attendanceKey]);
                             //}
                             //#endregion
+
+
                             #endregion
 
                             // 因常春藤特殊需求加工科目名稱內容 校部訂+科目名稱
@@ -3436,17 +3444,7 @@ namespace SH_SemesterScoreReport_jvyjhs
                         bkw.ReportProgress(90);
 
                         //table.TableName = "debug";
-                        //table.WriteXml(Application.StartupPath + "\\debug1.xml");
-
-                        // 取欄位用
-                        //StreamWriter sw = new StreamWriter(Application.StartupPath + "\\111.txt");
-                        //foreach (DataColumn dc in table.Columns)
-                        //{
-                        //    sw.WriteLine(dc.Caption);
-                        //}                            
-                        //    sw.Flush();
-                        //sw.Close();
-
+                        //table.WriteXml(Application.StartupPath + "\\debug\\debug_常春藤學期epost.xml");
 
                         string DateStr = "";
                         string MemoStr = "";
@@ -3465,6 +3463,8 @@ namespace SH_SemesterScoreReport_jvyjhs
                             }
                         }
                         catch (Exception ex) { }
+
+                        Dictionary<string, string> ePostNameMapDict1 = Utility.GetePostMapName1Dict();
 
                         // 處理 epost
                         foreach (DataRow dr in table.Rows)
@@ -3545,52 +3545,27 @@ namespace SH_SemesterScoreReport_jvyjhs
                                     }
 
                                     data["學分" + subjectIndex]=dr["學分" + subjectIndex] = ScoreStr;
-                                    
-                                    
-
-
-                                    //// 學期科目成績
-                                    //decimal sc;
-                                    //if (decimal.TryParse(dr["學期科目成績" + subjectIndex].ToString(), out sc))
-                                    //{
-                                    //    // 小於及格標準
-                                    //    if (sc < scA)
-                                    //    {
-                                    //        // 可以補考,不可補考
-                                    //        if (sc >= scB)
-                                    //        {
-                                    //            data["備註" + subjectIndex] = "*";
-                                    //            // *
-                                    //            dr["學期科目可補考註記" + subjectIndex] = "\f";
-                                    //        }
-                                    //        else
-                                    //        {
-                                    //            data["備註" + subjectIndex] = "#";
-                                    //            // #
-                                    //            dr["學期科目不可補考註記" + subjectIndex] = "\f";
-                                    //        }
-                                    //    }
-                                    //}
-
-                                    //// 未取得學分
-                                    //string strP = dr["科目取得學分"].ToString();
-                                    //if (!string.IsNullOrEmpty(strP) && strP == "否")
-                                    //    data["重修補考" + subjectIndex] = "#";
-
-
-                                    //data["名次" + subjectIndex] = dr["學期科目班排名" + subjectIndex].ToString() + "/" + dr["學期科目班排名母數" + subjectIndex].ToString();
-                                    //data["名次" + subjectIndex] = dr["學期科目班排名" + subjectIndex].ToString();
-                                }
+                                    data["成績" + subjectIndex] = dr["學期科目成績" + subjectIndex];
+                                                                   
+                                                                    }
                             }
 
                             // 處理綜合評語字串前加"
                             foreach (string str in CommList)
                             {
                                 if (_dtEpost.Columns.Contains(str))
-                                    data[str] = @"""" + data[str].ToString() + @"""";
+                                    data[str] = @"""" + dr[str].ToString() + @"""";
                             }
 
-                            data["導師評語"] = @"""" + data["導師評語"].ToString() + @"""";
+                            data["導師評語"] = @"""" + dr["導師評語"].ToString() + @"""";
+
+                            // 比對填資料
+                            foreach (string strKey in ePostNameMapDict1.Keys)
+                            {
+                                if (table.Columns.Contains(strKey))
+                                    data[ePostNameMapDict1[strKey]] = dr[strKey];
+                            }
+
                             _dtEpost.Rows.Add(data);
                         }
                         document = conf.Template;
@@ -3598,20 +3573,20 @@ namespace SH_SemesterScoreReport_jvyjhs
 
                         #endregion
 
-                        #region 產生對照欄位
-                        StreamWriter sw = new StreamWriter(Application.StartupPath + "\\table.txt", false);
-                        foreach (DataColumn dc in table.Columns)
-                            sw.WriteLine(dc.ColumnName);
-                        sw.Flush();
-                        sw.Close();
+                        //#region 產生對照欄位
+                        //StreamWriter sw = new StreamWriter(Application.StartupPath + "\\debug\\table.txt", false);
+                        //foreach (DataColumn dc in table.Columns)
+                        //    sw.WriteLine(dc.ColumnName);
+                        //sw.Flush();
+                        //sw.Close();
 
-                        StreamWriter swe = new StreamWriter(Application.StartupPath + "\\eposttable.txt", false);
-                        foreach (DataColumn dc in  _dtEpost.Columns)
-                            swe.WriteLine(dc.ColumnName);
-                        swe.Flush();
-                        swe.Close();
+                        //StreamWriter swe = new StreamWriter(Application.StartupPath + "\\debug\\eposttable.txt", false);
+                        //foreach (DataColumn dc in  _dtEpost.Columns)
+                        //    swe.WriteLine(dc.ColumnName);
+                        //swe.Flush();
+                        //swe.Close();
 
-                        #endregion
+                        //#endregion
 
                     }
                     catch (Exception exception)
